@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages File Location Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6e5494 0%, #f5f5f5 100%);
+            color: #24292e;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #6e5494;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .error-section {
+            background-color: #ffe6e6;
+            border-left: 5px solid #ff6b6b;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .solution-section {
+            background-color: #e6f7ff;
+            border-left: 5px solid #4dabf7;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        h2 {
+            color: #6e5494;
+            margin: 20px 0 15px;
+        }
+
+        h3 {
+            margin: 25px 0 10px;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        .file-structure {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: monospace;
+            line-height: 1.8;
+        }
+
+        .note {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .success-check {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            margin-right: 10px;
+        }
+
+        .location-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-top: 4px solid #6e5494;
+        }
+
+        .card h3 {
+            color: #6e5494;
+            margin-top: 0;
+        }
+
+        .card ul {
+            margin-bottom: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .location-cards {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>GitHub Pages File Location Guide</h1>
+            <p class="subtitle">Where to place your files for proper GitHub Pages deployment</p>
+        </header>
+
+        <div class="content">
+            <div class="error-section">
+                <h2>Understanding the Problem</h2>
+                <p>You're seeing a 404 error because GitHub Pages cannot find a valid <code>index.html</code> file in the correct location.</p>
+                <p>GitHub Pages looks for files in specific locations depending on your site type:</p>
+            </div>
+
+            <div class="location-cards">
+                <div class="card">
+                    <h3>User/Organization Sites</h3>
+                    <p><strong>Repository name:</strong> <code>username.github.io</code></p>
+                    <p><strong>File location:</strong> Root of the repository</p>
+                    <ul>
+                        <li>index.html</li>
+                        <li>styles.css</li>
+                        <li>script.js</li>
+                    </ul>
+                    <p><strong>URL:</strong> https://username.github.io</p>
+                </div>
+
+                <div class="card">
+                    <h3>Project Sites</h3>
+                    <p><strong>Repository name:</strong> Any name</p>
+                    <p><strong>File location:</strong> Root or /docs folder</p>
+                    <ul>
+                        <li>index.html</li>
+                        <li>css/styles.css</li>
+                        <li>js/script.js</li>
+                    </ul>
+                    <p><strong>URL:</strong> https://username.github.io/repository-name</p>
+                </div>
+            </div>
+
+            <div class="solution-section">
+                <h2>Step-by-Step Solution</h2>
+
+                <h3>1. Check Your Repository Type</h3>
+                <p>Determine if you're creating a User/Organization site or a Project site:</p>
+                <ul>
+                    <li><strong>User/Organization site:</strong> Repository must be named <code>username.github.io</code> (replace "username" with your GitHub username)</li>
+                    <li><strong>Project site:</strong> Repository can have any name, and files can be in the root or in the <code>/docs</code> folder</li>
+                </ul>
+
+                <h3>2. Place Files in the Correct Location</h3>
+                <p>Based on your repository type, make sure your files are in the right location:</p>
+
+                <div class="file-structure">
+                    <strong>For User/Organization sites:</strong><br>
+                    username.github.io/<br>
+                    ├── index.html<br>
+                    ├── css/<br>
+                    │   └── style.css<br>
+                    ├── js/<br>
+                    │   └── script.js<br>
+                    └── images/<br>
+                        └── logo.png<br>
+                    <br>
+                    <strong>For Project sites (root deployment):</strong><br>
+                    repository-name/<br>
+                    ├── index.html<br>
+                    ├── css/<br>
+                    │   └── style.css<br>
+                    ├── js/<br>
+                    │   └── script.js<br>
+                    └── README.md<br>
+                    <br>
+                    <strong>For Project sites (/docs deployment):</strong><br>
+                    repository-name/<br>
+                    ├── docs/<br>
+                    │   ├── index.html<br>
+                    │   ├── css/<br>
+                    │   │   └── style.css<br>
+                    │   └── js/<br>
+                    │       └── script.js<br>
+                    └── README.md
+                </div>
+
+                <h3>3. Enable GitHub Pages</h3>
+                <p>Make sure GitHub Pages is enabled in your repository settings:</p>
+                <ol>
+                    <li>Go to your repository on GitHub</li>
+                    <li>Click on the "Settings" tab</li>
+                    <li>Scroll down to the "GitHub Pages" section</li>
+                    <li>Select the source branch (and folder if using /docs)</li>
+                    <li>Click "Save"</li>
+                </ol>
+
+                <div class="note">
+                    <p><strong>Note:</strong> If you're using the /docs folder option, make sure your files are in the /docs folder at the root of your repository, not in a subfolder.</p>
+                </div>
+
+                <h3>4. Check File Names and Case Sensitivity</h3>
+                <p>GitHub Pages is case-sensitive. Make sure:</p>
+                <ul>
+                    <li>Your main page is named <code>index.html</code> (all lowercase)</li>
+                    <li>All file references in your HTML use the correct case</li>
+                    <li>There are no spaces or special characters in your file names</li>
+                </ul>
+            </div>
+
+            <h2>Best Practices</h2>
+            <ul>
+                <li><span class="success-check">✓</span> Use relative paths for all internal links (e.g., "css/styles.css" instead of "/css/styles.css")</li>
+                <li><span class="success-check">✓</span> Keep all filenames lowercase to avoid case sensitivity issues</li>
+                <li><span class="success-check">✓</span> Use a simple structure without complex nesting</li>
+                <li><span class="success-check">✓</span> Test your site locally before pushing to GitHub</li>
+            </ul>
+
+            <div class="note">
+                <p><strong>Deployment Time:</strong> After pushing your changes, it might take 1-10 minutes for GitHub Pages to deploy your site. You can check the deployment status in the "Environments" section of your repository.</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>GitHub Pages File Location Guide | This solution will help you fix the 404 error by placing files in the correct location</p>
+        </footer>
+    </div>
+</body>
+</html>
