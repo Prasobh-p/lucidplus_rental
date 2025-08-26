@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Property Management - LucidPlus Rentals</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .page-title { font-weight: bold; color: #0d6efd; }
+        .form-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+        .table-section { margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">LucidPlus Rentals</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item me-2"><a class="btn btn-light btn-sm" href="{% url 'Public_login' %}">Login</a></li>
+                <li class="nav-item"><a class="btn btn-warning btn-sm" href="{% url 'signup_page' %}">Sign Up</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <h2 class="page-title mb-4">Property Management (For Owners)</h2>
+
+    <!-- Add Property Form -->
+    <div class="form-section shadow-sm">
+        <h4 class="mb-3">Add New Property</h4>
+        <form method="post" enctype="multipart/form-data" action="{% url 'owner_page' %}">
+
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Title</label>
+                    <input type="text" name="TITLE" class="form-control" placeholder="Property title">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="ADDRESS" class="form-control" placeholder="Full address">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Geolocation</label>
+                    <input type="text" name="GEOLOCATION" class="form-control" placeholder="Latitude, Longitude">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Rent per Month</label>
+                    <input type="number" step="0.01" name="RENT_PER_MONTH" class="form-control" placeholder="₹">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Property Type</label>
+                    <select name="PROPERTY_TYPE" class="form-select">
+                        <option value="Apartment">Apartment</option>
+                        <option value="House">House</option>
+                        <option value="Villa">Villa</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Amenities</label>
+                    <input type="text" name="AMENITIES" class="form-control" placeholder="Separate with commas">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Availability Start</label>
+                    <input type="date" name="AVAILABILITY_START" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Availability End</label>
+                    <input type="date" name="AVAILABILITY_END" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Description</label>
+                    <textarea name="DESCRIPTION" class="form-control" rows="3"
+                              placeholder="Property description"></textarea>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Property Image</label>
+                    <input type="file" name="PROPERTY_IMAGE" class="form-control">
+                </div>
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary">Add Property</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- My Properties Table -->
+    <div class="table-section">
+        <h4 class="mb-3">My Properties</h4>
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Rent</th>
+                <th>Availability</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in data %}
+            <tr>
+                <td>{{ item.TITLE }}</td>
+                <td>{{ item.PROPERTY_TYPE }}</td>
+                <td>₹{{ item.RENT_PER_MONTH }}</td>
+                <td>{{ item.AVAILABILITY_START }} - {{ item.AVAILABILITY_END }}</td>
+                <td>
+                    {% if item.PROPERTY_IMAGE %}
+                    <img src="{{ item.PROPERTY_IMAGE.url }}" alt="Property Image" style="width:80px; height:auto;">
+                    {% else %}
+                    No Image
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="#" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No properties found</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <p class="mb-0">&copy; 2025 LucidPlus Rentals. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% load static %}
+<doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Admin Dashboard{% endblock %}</title>
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { background:#f6f7fb; }
+    .sidebar { min-height:100vh; background:#fff; border-right:1px solid #e6e9ee; }
+    .card-compact { padding:.8rem; }
+    .table-wrap { max-height:60vh; overflow:auto; }
+    .metric-bar { height: 10px; border-radius: 6px; }
+    @media (max-width: 767px) {
+      .sidebar { display:none; }
+    }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <div class="d-flex">
+    <nav class="sidebar p-3">
+      <a href="#" class="d-block mb-3 text-decoration-none">
+        <h5 class="mb-0">Platform Admin</h5>
+        <small class="text-muted">Manage listings & users</small>
+      </a>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a class="nav-link py-1" href="{% url 'Indexpage' %}">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link py-1" href="{% url 'propertypage' %}">Properties</a></li>
+        <li class="nav-item"><a class="nav-link py-1" href="{% url 'Booking' %}">Bookings</a></li>
+        <li class="nav-item"><a class="nav-link py-1" href="{% url 'Flagged' %}">Flagged</a></li>
+        <li class="nav-item"><a class="nav-link py-1 text-danger" href="{% url 'Loginpage' %}">Logout</a></li>
+      </ul>
+    </nav>
+
+    <main class="flex-grow-1 p-4">
+      <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="mb-0">{% block header %}Admin Dashboard{% endblock %}</h3>
+          <form class="d-flex" method="get" action="#">
+            <input name="q" value="{{ q }}" class="form-control form-control-sm me-2" placeholder="Search users or properties">
+            <button class="btn btn-sm btn-primary" type="submit">Search</button>
+          </form>
+        </div>
+
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

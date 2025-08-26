@@ -1,0 +1,91 @@
+{% extends "Base.html" %}
+{% block title %}Flagged Content{% endblock %}
+{% block header %}Flagged Content{% endblock %}
+{% block content %}
+
+<div class="card p-3">
+    <form class="row g-2 mb-3" method="get" action="">
+        <div class="col-md-6">
+            <input type="text" name="q" value="{{ q }}" placeholder="Search property or reason" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary btn-sm w-100">Search</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Property</th>
+                    <th>Reporter</th>
+                    <th>Reason</th>
+                    <th>Reported On</th>
+                    <th class="text-center">Approve Listing</th>
+                    <th class="text-center">Deactivate Listing</th>
+                    <th class="text-center">Clear Flag</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for f in flags %}
+                <tr>
+                    <td>{{ f.property.title }}</td>
+                    <td>{{ f.reporter.username if f.reporter else "Anonymous" }}</td>
+                    <td style="max-width: 250px;">{{ f.reason }}</td>
+                    <td>{{ f.created_at|date:"Y-m-d H:i" }}</td>
+                    <td class="text-center">
+                        {% if not f.property.is_approved %}
+                        <form method="post" action="{% url 'listings:approve_listing' f.property.id %}" onsubmit="return confirm('Approve this listing?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-sm btn-success">Approve</button>
+                        </form>
+                        {% else %}
+                            <small class="text-muted">—</small>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if f.property.is_active %}
+                        <form method="post" action="{% url 'listings:deactivate_listing' f.property.id %}" onsubmit="return confirm('Deactivate this listing?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-sm btn-outline-warning">Deactivate</button>
+                        </form>
+                        {% else %}
+                            <small class="text-muted">—</small>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <form method="post" action="{% url 'listings:clear_flag' f.id %}" onsubmit="return confirm('Clear this flag?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-sm btn-outline-secondary">Clear</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="7" class="text-center text-muted">No flagged content found</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination pagination-sm">
+            {% if flags.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ flags.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">Prev</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Prev</span></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">{{ flags.number }} / {{ flags.paginator.num_pages }}</span></li>
+            {% if flags.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ flags.next_page_number }}{% if q %}&q={{ q }}{% endif %}">Next</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "Base.html" %}
+{% block title %}Bookings{% endblock %}
+{% block header %}Bookings{% endblock %}
+{% block content %}
+
+<div class="card p-3">
+    <form class="row g-2 mb-3" method="get" action="">
+        <div class="col-md-4">
+            <input type="text" name="q" value="{{ q }}" placeholder="Search property or user" class="form-control form-control-sm">
+        </div>
+        <div class="col-md-4">
+            <select name="status" class="form-select form-select-sm">
+                <option value="">All Status</option>
+                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                <option value="confirmed" {% if status_filter == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                <option value="rejected" {% if status_filter == 'rejected' %}selected{% endif %}>Rejected</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-primary btn-sm w-100">Filter</button>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-sm table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Property</th>
+                    <th>User</th>
+                    <th>Move-in Date</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th class="text-center">Confirm</th>
+                    <th class="text-center">Reject</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for b in bookings %}
+                <tr>
+                    <td>{{ b.property.title }}</td>
+                    <td>{{ b.user.username }}</td>
+                    <td>{{ b.move_in_date }}</td>
+                    <td>{{ b.duration_months }} month(s)</td>
+                    <td>
+                        {% if b.status == 'pending' %}
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif b.status == 'confirmed' %}
+                            <span class="badge bg-success">Confirmed</span>
+                        {% else %}
+                            <span class="badge bg-danger">Rejected</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if b.status != 'confirmed' %}
+                        <form method="post" action="{% url 'listings:confirm_booking' b.id %}" onsubmit="return confirm('Confirm this booking?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-sm btn-success">Confirm</button>
+                        </form>
+                        {% else %}
+                            <small class="text-muted">—</small>
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if b.status != 'rejected' %}
+                        <form method="post" action="{% url 'listings:reject_booking' b.id %}" onsubmit="return confirm('Reject this booking?');">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="btn btn-sm btn-outline-danger">Reject</button>
+                        </form>
+                        {% else %}
+                            <small class="text-muted">—</small>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="7" class="text-center text-muted">No bookings found</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination pagination-sm">
+            {% if bookings.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ bookings.previous_page_number }}{% if q %}&q={{ q }}{% endif %}&status={{ status_filter }}">Prev</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Prev</span></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">{{ bookings.number }} / {{ bookings.paginator.num_pages }}</span></li>
+            {% if bookings.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ bookings.next_page_number }}{% if q %}&q={{ q }}{% endif %}&status={{ status_filter }}">Next</a></li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}
